@@ -1,0 +1,61 @@
+apply plugin: 'java'
+apply plugin: 'maven'
+apply plugin: 'idea'
+
+repositories {		
+	mavenCentral()
+	maven { url "https://jitpack.io" }
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+group = "com.github.reactive-ros"
+version = 1.0
+
+dependencies {	
+	// reactive-ros
+	compile 'com.github.reactive-ros:reactive-ros:-SNAPSHOT'
+
+	// rxjava
+	compile 'io.reactivex:rxjava:1.0.+'
+	compile 'io.reactivex:rxjava-reactive-streams:1.0.0'
+
+	// Testing
+	testCompile 'junit:junit:4.11'
+}
+
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives sourcesJar
+    archives javadocJar
+}
+
+test {
+	testLogging {
+		//showStandardStreams true
+		displayGranularity 3
+		events 'passed', 'failed', 'standard_out'
+	}
+}
+
+if (JavaVersion.current().isJava8Compatible()) {
+    allprojects {
+      tasks.withType(Javadoc) {
+        options.addStringOption('Xdoclint:none', '-quiet')
+      }
+    }
+  }
+
+task wrapper(type: Wrapper) {
+	gradleVersion = '2.3'
+}
