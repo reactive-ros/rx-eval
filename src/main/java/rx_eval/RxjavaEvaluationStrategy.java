@@ -103,7 +103,7 @@ public class RxjavaEvaluationStrategy implements EvaluationStrategy {
 
     @Override
     public EvaluationStrategy newStrategy() {
-        return new RxjavaEvaluationStrategy();
+        return new RxjavaEvaluationStrategy(parallel, scheduler);
     }
 
     /**
