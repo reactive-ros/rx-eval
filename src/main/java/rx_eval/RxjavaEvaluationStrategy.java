@@ -123,7 +123,7 @@ public class RxjavaEvaluationStrategy implements EvaluationStrategy {
         stream.subscribe();
     }
     private <T> void output(SinkOutput<T> output, Observable<T> stream) {
-        stream.subscribe(Converter.toObserver(output.getSink().toSubscriber()));
+        stream.subscribe(Converter.toObserver(output.getSink()));
     }
     private <T> void output(ActionOutput<T> output, Observable<T> stream) {
         if (output.getCompleteAction() != null)
@@ -212,7 +212,7 @@ public class RxjavaEvaluationStrategy implements EvaluationStrategy {
         return Observable.from(expr.getCollection());
     }
     private <T> Observable<T> evaluate(FromSource<T> expr) {
-        return Converter.<T>toObservable(expr.getSource().toPublisher());
+        return Converter.<T>toObservable(expr.getSource());
     }
     private <T> Observable<T> evaluate(FromListener<T> expr) {
         return Observable.create(subscriber -> expr.getSource().register(subscriber::onNext));
