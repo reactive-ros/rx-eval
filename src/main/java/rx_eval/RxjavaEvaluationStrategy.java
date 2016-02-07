@@ -101,11 +101,6 @@ public class RxjavaEvaluationStrategy implements EvaluationStrategy {
         graphs.pop();
     }
 
-    @Override
-    public EvaluationStrategy newStrategy() {
-        return new RxjavaEvaluationStrategy(parallel, scheduler);
-    }
-
     /**
      * ======================================== OUTPUT ========================================
      */
