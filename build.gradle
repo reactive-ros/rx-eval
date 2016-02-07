@@ -13,6 +13,10 @@ targetCompatibility = 1.8
 group = "com.github.reactive-ros"
 version = 1.0
 
+configurations.all {
+    // check for updates every build
+    resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
+}
 dependencies {	
 	// reactive-ros
 	compile 'com.github.reactive-ros:reactive-ros:-SNAPSHOT'
@@ -24,6 +28,7 @@ dependencies {
 	// Testing
 	testCompile 'junit:junit:4.11'
 	testCompile 'com.github.reactive-ros:graph-viz:-SNAPSHOT'
+	testCompile 'com.github.reactive-ros:test-data:-SNAPSHOT'
 }
 
 task sourcesJar(type: Jar, dependsOn: classes) {
@@ -43,9 +48,10 @@ artifacts {
 
 test {
 	testLogging {
-		//showStandardStreams true
 		displayGranularity 3
 		events 'passed', 'failed', 'standard_out'
+		//events 'passed', 'failed', 'standard_error'
+		//events 'passed', 'failed', 'standard_out', 'standard_error'
 	}
 }
 
