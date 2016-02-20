@@ -6,6 +6,8 @@ import test_data.TestData;
 import test_data.TestInfo;
 import test_data.utilities.Colors;
 
+import java.util.*;
+
 /**
  * @author Orestis Melkonian
  */
@@ -16,8 +18,12 @@ public class Tester {
 
         for (TestInfo test : TestData.tests()) {
             System.out.print(test.name + ": ");
-            assertTrue(test.equality());
-            Colors.print(Colors.GREEN, "PASSED");
+            if (test.equality())
+                Colors.print(Colors.GREEN, "Passed");
+            else {
+                Colors.print(Colors.RED, "Failed");
+                System.out.println(test.q1 + "\n\t!=\n" + test.q2);
+            }
         }
     }
 
@@ -27,8 +33,16 @@ public class Tester {
 
         for (TestInfo test : TestData.tests()) {
             System.out.print(test.name + ": ");
-            assertTrue(test.equality());
-            Colors.print(Colors.GREEN, "PASSED");
+            if (test.equality())
+                Colors.print(Colors.GREEN, "Passed");
+            else {
+                Colors.print(Colors.RED, "Failed");
+                System.out.println(test.q1 + " != " + test.q2);
+            }
         }
+    }
+
+    private boolean compare(Object[] o1, Object[] o2) {
+        return Arrays.equals(o1, o2);
     }
 }
