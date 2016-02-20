@@ -1,4 +1,4 @@
-intall: 
+install: 
 	@./gradlew install
 update:
 	@./gradlew install --refresh-dependencies
