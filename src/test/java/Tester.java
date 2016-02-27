@@ -41,8 +41,4 @@ public class Tester {
             }
         }
     }
-
-    private boolean compare(Object[] o1, Object[] o2) {
-        return Arrays.equals(o1, o2);
-    }
 }

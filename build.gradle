@@ -27,7 +27,6 @@ dependencies {
 
 	// Testing
 	testCompile 'junit:junit:4.11'
-	testCompile 'com.github.reactive-ros:graph-viz:-SNAPSHOT'
 	testCompile 'com.github.reactive-ros:test-data:-SNAPSHOT'
 }
 
