@@ -11,7 +11,6 @@ public class Adhoc {
     @Test
     public void test() {
         Stream.setEvaluationStrategy(new RxjavaEvaluationStrategy(true));
-
         Threads.sleep();
     }
 }

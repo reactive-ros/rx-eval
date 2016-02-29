@@ -1,12 +1,9 @@
-import static org.junit.Assert.*;
 import org.junit.Test;
 import org.reactive_ros.Stream;
 import rx_eval.RxjavaEvaluationStrategy;
 import test_data.TestData;
 import test_data.TestInfo;
 import test_data.utilities.Colors;
-
-import java.util.*;
 
 /**
  * @author Orestis Melkonian
