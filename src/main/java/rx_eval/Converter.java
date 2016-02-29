@@ -1,6 +1,6 @@
 package rx_eval;
 
-import org.reactive_ros.internal.notifications.Notification;
+import org.rhea_core.internal.notifications.Notification;
 import org.reactivestreams.Publisher;
 import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;

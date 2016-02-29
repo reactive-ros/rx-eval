@@ -10,7 +10,7 @@ repositories {
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
-group = "com.github.reactive-ros"
+group = "com.github.rhea-flow"
 version = 1.0
 
 configurations.all {
@@ -18,8 +18,8 @@ configurations.all {
     resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
 }
 dependencies {	
-	// reactive-ros
-	compile 'com.github.reactive-ros:reactive-ros:-SNAPSHOT'
+	// rhea-flow
+	compile 'com.github.rhea-flow:rhea-core:-SNAPSHOT'
 
 	// rxjava
 	compile 'io.reactivex:rxjava:1.0.+'
@@ -27,7 +27,7 @@ dependencies {
 
 	// Testing
 	testCompile 'junit:junit:4.11'
-	testCompile 'com.github.reactive-ros:test-data:-SNAPSHOT'
+	testCompile 'com.github.rhea-flow:test-data:-SNAPSHOT'
 }
 
 task sourcesJar(type: Jar, dependsOn: classes) {
