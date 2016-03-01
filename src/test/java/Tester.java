@@ -31,9 +31,9 @@ public class Tester {
         for (TestInfo test : TestData.tests()) {
             System.out.print(test.name + ": ");
             if (test.equality())
-                Colors.print(Colors.GREEN, "Passed");
+                Colors.println(Colors.GREEN, "Passed");
             else {
-                Colors.print(Colors.RED, "Failed");
+                Colors.println(Colors.RED, "Failed");
                 System.out.println(test.q1 + " != " + test.q2);
             }
         }
