@@ -372,11 +372,6 @@ public class RxjavaEvaluationStrategy implements EvaluationStrategy {
     private <T> Observable<T> evaluate(SimpleScanExpr<T> expr) {
         return ((Observable<T>) evaluate(inner(expr))).scan(expr.getAccumulator()::call);
     }
-    private <T> Observable<T> evaluate(SwitchOnNextExpr<T> expr) {
-        Observable<Stream<T>> inner = (Observable<Stream<T>>) evaluate(inner(expr));
-        Observable<Observable<T>> sources = inner.map(this::evaluate);
-        return Observable.switchOnNext(sources);
-    }
     private <T> Observable<Notification<T>> evaluate(MaterializeExpr<T> expr) {
         return ((Observable<T>) evaluate(inner(expr)))
                 .materialize()

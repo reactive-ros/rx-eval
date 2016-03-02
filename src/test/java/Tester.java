@@ -1,9 +1,14 @@
 import org.junit.Test;
 import org.rhea_core.Stream;
+import org.rhea_core.distribution.Distributor;
+import org.rhea_core.distribution.Machine;
 import rx_eval.RxjavaEvaluationStrategy;
 import test_data.TestData;
 import test_data.TestInfo;
 import test_data.utilities.Colors;
+
+import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * @author Orestis Melkonian
@@ -11,7 +16,8 @@ import test_data.utilities.Colors;
 public class Tester {
     @Test
     public void single_threaded() {
-        Stream.setEvaluationStrategy(new RxjavaEvaluationStrategy());
+
+        Stream.configure(new RxjavaEvaluationStrategy(), new Distributor());
 
         for (TestInfo test : TestData.tests()) {
             System.out.print(test.name + ": ");
@@ -26,7 +32,8 @@ public class Tester {
 
     @Test
     public void multi_threaded() {
-        Stream.setEvaluationStrategy(new RxjavaEvaluationStrategy(true));
+
+        Stream.configure(new RxjavaEvaluationStrategy(), new Distributor());
 
         for (TestInfo test : TestData.tests()) {
             System.out.print(test.name + ": ");

@@ -1,6 +1,4 @@
 import org.junit.Test;
-import org.rhea_core.Stream;
-import rx_eval.RxjavaEvaluationStrategy;
 import test_data.utilities.Threads;
 
 /**
@@ -10,7 +8,6 @@ public class Adhoc {
 
     @Test
     public void test() {
-        Stream.setEvaluationStrategy(new RxjavaEvaluationStrategy(true));
         Threads.sleep();
     }
 }
