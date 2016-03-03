@@ -433,52 +433,52 @@ public class RxjavaEvaluationStrategy implements EvaluationStrategy {
             p.add(null);
         Transformer p1 = p.get(0); Transformer p2 = p.get(1); Transformer p3 = p.get(2); Transformer p4 = p.get(3); Transformer p5 = p.get(4);
         Transformer p6 = p.get(5); Transformer p7 = p.get(6); Transformer p8 = p.get(7); Transformer p9 = p.get(8);
+        if (c.combiner9 != null) {
+            if (Objects.equals(c.type, "zip"))
+                return Observable.zip(evaluate(p.get(0)), evaluate(p2), evaluate(p3), evaluate(p4), evaluate(p5), evaluate(p6), evaluate(p7), evaluate(p8), evaluate(p9), c.combiner9::call);
+            else
+                return Observable.combineLatest(evaluate(p1), evaluate(p2), evaluate(p3), evaluate(p4), evaluate(p5), evaluate(p6), evaluate(p7), evaluate(p8), evaluate(p9), c.combiner9::call);
+        }
         if (c.combiner8 != null) {
             if (Objects.equals(c.type, "zip"))
-                return Observable.zip(evaluate(p.get(0)), evaluate(p2), evaluate(p3), evaluate(p4), evaluate(p5), evaluate(p6), evaluate(p7), evaluate(p8), evaluate(p9), c.combiner8::call);
+                return Observable.zip(evaluate(p1), evaluate(p2), evaluate(p3), evaluate(p4), evaluate(p5), evaluate(p6), evaluate(p7), evaluate(p8), c.combiner8::call);
             else
-                return Observable.combineLatest(evaluate(p1), evaluate(p2), evaluate(p3), evaluate(p4), evaluate(p5), evaluate(p6), evaluate(p7), evaluate(p8), evaluate(p9), c.combiner8::call);
+                return Observable.combineLatest(evaluate(p1), evaluate(p2), evaluate(p3), evaluate(p4), evaluate(p5), evaluate(p6), evaluate(p7), evaluate(p8), c.combiner8::call);
         }
         if (c.combiner7 != null) {
             if (Objects.equals(c.type, "zip"))
-                return Observable.zip(evaluate(p1), evaluate(p2), evaluate(p3), evaluate(p4), evaluate(p5), evaluate(p6), evaluate(p7), evaluate(p8), c.combiner7::call);
+                return Observable.zip(evaluate(p1), evaluate(p2), evaluate(p3), evaluate(p4), evaluate(p5), evaluate(p6), evaluate(p7), c.combiner7::call);
             else
-                return Observable.combineLatest(evaluate(p1), evaluate(p2), evaluate(p3), evaluate(p4), evaluate(p5), evaluate(p6), evaluate(p7), evaluate(p8), c.combiner7::call);
+                return Observable.combineLatest(evaluate(p1), evaluate(p2), evaluate(p3), evaluate(p4), evaluate(p5), evaluate(p6), evaluate(p7), c.combiner7::call);
         }
         if (c.combiner6 != null) {
             if (Objects.equals(c.type, "zip"))
-                return Observable.zip(evaluate(p1), evaluate(p2), evaluate(p3), evaluate(p4), evaluate(p5), evaluate(p6), evaluate(p7), c.combiner6::call);
+                return Observable.zip(evaluate(p1), evaluate(p2), evaluate(p3), evaluate(p4), evaluate(p5), evaluate(p6), c.combiner6::call);
             else
-                return Observable.combineLatest(evaluate(p1), evaluate(p2), evaluate(p3), evaluate(p4), evaluate(p5), evaluate(p6), evaluate(p7), c.combiner6::call);
+                return Observable.combineLatest(evaluate(p1), evaluate(p2), evaluate(p3), evaluate(p4), evaluate(p5), evaluate(p6), c.combiner6::call);
         }
         if (c.combiner5 != null) {
             if (Objects.equals(c.type, "zip"))
-                return Observable.zip(evaluate(p1), evaluate(p2), evaluate(p3), evaluate(p4), evaluate(p5), evaluate(p6), c.combiner5::call);
+                return Observable.zip(evaluate(p1), evaluate(p2), evaluate(p3), evaluate(p4), evaluate(p5), c.combiner5::call);
             else
-                return Observable.combineLatest(evaluate(p1), evaluate(p2), evaluate(p3), evaluate(p4), evaluate(p5), evaluate(p6), c.combiner5::call);
+                return Observable.combineLatest(evaluate(p1), evaluate(p2), evaluate(p3), evaluate(p4), evaluate(p5), c.combiner5::call);
         }
         if (c.combiner4 != null) {
             if (Objects.equals(c.type, "zip"))
-                return Observable.zip(evaluate(p1), evaluate(p2), evaluate(p3), evaluate(p4), evaluate(p5), c.combiner4::call);
+                return Observable.zip(evaluate(p1), evaluate(p2), evaluate(p3), evaluate(p4), c.combiner4::call);
             else
-                return Observable.combineLatest(evaluate(p1), evaluate(p2), evaluate(p3), evaluate(p4), evaluate(p5), c.combiner4::call);
+                return Observable.combineLatest(evaluate(p1), evaluate(p2), evaluate(p3), evaluate(p4), c.combiner4::call);
         }
         if (c.combiner3 != null) {
             if (Objects.equals(c.type, "zip"))
-                return Observable.zip(evaluate(p1), evaluate(p2), evaluate(p3), evaluate(p4), c.combiner3::call);
+                return Observable.zip(evaluate(p1), evaluate(p2), evaluate(p3), c.combiner3::call);
             else
-                return Observable.combineLatest(evaluate(p1), evaluate(p2), evaluate(p3), evaluate(p4), c.combiner3::call);
-        }
-        if (c.combiner2 != null) {
-            if (Objects.equals(c.type, "zip"))
-                return Observable.zip(evaluate(p1), evaluate(p2), evaluate(p3), c.combiner2::call);
-            else
-                return Observable.combineLatest(evaluate(p1), evaluate(p2), evaluate(p3), c.combiner2::call);
+                return Observable.combineLatest(evaluate(p1), evaluate(p2), evaluate(p3), c.combiner3::call);
         }
         if (Objects.equals(c.type, "zip"))
-            return Observable.zip(evaluate(p1), evaluate(p2), c.combiner1::call);
+            return Observable.zip(evaluate(p1), evaluate(p2), c.combiner2::call);
         else
-            return Observable.combineLatest(evaluate(p1), evaluate(p2), c.combiner1::call);
+            return Observable.combineLatest(evaluate(p1), evaluate(p2), c.combiner2::call);
     }
 
     private class Pair<T1, T2> {
