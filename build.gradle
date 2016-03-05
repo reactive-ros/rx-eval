@@ -48,9 +48,9 @@ artifacts {
 test {
 	testLogging {
 		displayGranularity 3
-		events 'passed', 'failed', 'standard_out'
+		//events 'passed', 'failed', 'standard_out'
 		//events 'passed', 'failed', 'standard_error'
-		//events 'passed', 'failed', 'standard_out', 'standard_error'
+		events 'passed', 'failed', 'standard_out', 'standard_error'
 	}
 }
 
