@@ -28,6 +28,7 @@ dependencies {
 	// Testing
 	testCompile 'junit:junit:4.11'
 	testCompile 'com.github.rhea-flow:test-data:-SNAPSHOT'
+	testCompile 'com.github.rhea-flow:graph-viz:-SNAPSHOT'
 }
 
 task sourcesJar(type: Jar, dependsOn: classes) {
