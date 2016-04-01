@@ -1,8 +1,6 @@
 import graph_viz.GraphVisualizer;
 import org.junit.Test;
 import org.rhea_core.Stream;
-import org.rhea_core.distribution.Distributor;
-import rx_eval.RxjavaEvaluationStrategy;
 import test_data.utilities.Threads;
 
 /**
@@ -12,7 +10,7 @@ public class Adhoc {
 
     @Test
     public void test() {
-        Stream.configure(new Distributor(RxjavaEvaluationStrategy::new));
+//        Stream.configure();
 
         Stream<Integer> s = Stream.nat();
 

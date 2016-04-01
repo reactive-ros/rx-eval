@@ -1,7 +1,4 @@
 import org.junit.Test;
-import org.rhea_core.Stream;
-import org.rhea_core.distribution.Distributor;
-import rx_eval.RxjavaEvaluationStrategy;
 import test_data.TestData;
 import test_data.TestInfo;
 import test_data.utilities.Colors;
@@ -12,7 +9,7 @@ import test_data.utilities.Colors;
 public class Tester {
     @Test
     public void single_threaded() {
-        Stream.configure(new Distributor(RxjavaEvaluationStrategy::new));
+//        Stream.configure();
         for (TestInfo test : TestData.tests()) {
             System.out.print(test.name + ": ");
             if (test.equality())
@@ -26,7 +23,7 @@ public class Tester {
 
     @Test
     public void multi_threaded() {
-        Stream.configure(new Distributor(RxjavaEvaluationStrategy::new));
+//        Stream.configure();
         for (TestInfo test : TestData.tests()) {
             System.out.print(test.name + ": ");
             if (test.equality())

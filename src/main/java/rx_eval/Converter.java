@@ -1,9 +1,9 @@
 package rx_eval;
 
-import org.rhea_core.internal.notifications.Notification;
 import org.reactivestreams.Publisher;
 import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
+import org.rhea_core.internal.Notification;
 import rx.Observable;
 import rx.Observer;
 import rx.RxReactiveStreams;

@@ -1,11 +1,12 @@
 package rx_eval;
 
+import org.rhea_core.annotations.StrategyInfo;
 import org.rhea_core.evaluation.EvaluationStrategy;
 import org.rhea_core.Stream;
+import org.rhea_core.internal.Notification;
 import org.rhea_core.internal.expressions.feedback.EntryPointExpr;
 import org.rhea_core.internal.expressions.feedback.ExitPointExpr;
 import org.rhea_core.internal.graph.FlowGraph;
-import org.rhea_core.internal.notifications.Notification;
 import org.rhea_core.internal.output.*;
 import org.rhea_core.internal.expressions.*;
 import org.rhea_core.internal.expressions.conditional_boolean.*;
@@ -37,6 +38,7 @@ import java.util.stream.Collectors;
  * @author Orestis Melkonian
  */
 @SuppressWarnings("unchecked")
+@StrategyInfo()
 public class RxjavaEvaluationStrategy implements EvaluationStrategy {
 
     private boolean parallel = false;
