@@ -38,7 +38,7 @@ import java.util.stream.Collectors;
  * @author Orestis Melkonian
  */
 @SuppressWarnings("unchecked")
-@StrategyInfo()
+@StrategyInfo(name="rx")
 public class RxjavaEvaluationStrategy implements EvaluationStrategy {
 
     private boolean parallel = false;
