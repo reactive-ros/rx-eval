@@ -6,6 +6,8 @@ test:
 	@./gradlew test --tests Tester
 adhoc:
 	@./gradlew test --tests Adhoc
+hamming:
+	@./gradlew test --tests HammingNumbers
 idea: 
 	@./gradlew idea
 doc:
