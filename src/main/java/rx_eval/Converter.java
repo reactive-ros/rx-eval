@@ -4,6 +4,8 @@ import org.reactivestreams.Publisher;
 import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
 import org.rhea_core.internal.Notification;
+import org.rhea_core.internal.Notification.Kind;
+
 import rx.Observable;
 import rx.Observer;
 import rx.RxReactiveStreams;
@@ -20,7 +22,9 @@ public abstract class Converter {
         return RxReactiveStreams.toPublisher(observable);
     }
 
-    public static <T> Observer<T> toObserver(Subscriber<T> subscriber) { return new ObserverAdapter<>(subscriber); }
+    public static <T> Observer<T> toObserver(Subscriber<T> subscriber) {
+        return new ObserverAdapter<>(subscriber);
+    }
 
     public static <T> Subscriber<T> fromObserver(Observer<T> observer) {
         return new SubscriberAdapter<>(observer);
@@ -85,10 +89,10 @@ public abstract class Converter {
             return Notification.createOnCompleted();
     }
     public static <T> rx.Notification<T> fromNotification(Notification<T> not) {
-        Notification.Kind kind = not.getKind();
-        if (kind == Notification.Kind.OnNext)
+        Kind kind = not.getKind();
+        if (kind == Kind.OnNext)
             return rx.Notification.createOnNext(not.getValue());
-        else if (kind == Notification.Kind.OnError)
+        else if (kind == Kind.OnError)
             return rx.Notification.createOnError(not.getThrowable());
         else
             return rx.Notification.createOnCompleted();

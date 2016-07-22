@@ -1,13 +1,12 @@
-import graph_viz.GraphVisualizer;
-import hazelcast_distribution.HazelcastDistributionStrategy;
-import org.javatuples.Pair;
 import org.junit.Test;
 import org.rhea_core.Stream;
-import rx_eval.RxjavaEvaluationStrategy;
-import test_data.utilities.Threads;
 
 import java.util.Collections;
 import java.util.PriorityQueue;
+
+import hazelcast_distribution.HazelcastDistributionStrategy;
+import rx_eval.RxjavaEvaluationStrategy;
+import test_data.utilities.Threads;
 
 /**
  * @author Orestis Melkonian
@@ -16,7 +15,8 @@ public class HammingNumbers {
 
     @Test
     public void hamming() {
-        Stream.configure(new HazelcastDistributionStrategy(Collections.singletonList(RxjavaEvaluationStrategy::new)));
+        Stream.distributionStrategy =
+                new HazelcastDistributionStrategy(Collections.singletonList(RxjavaEvaluationStrategy::new));
 
         Stream<?> stream =
                 Stream.just(1).loop(s ->
