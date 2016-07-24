@@ -2,7 +2,7 @@ apply plugin: 'java'
 apply plugin: 'maven'
 apply plugin: 'idea'
 
-repositories {		
+repositories {
 	mavenCentral()
 	maven { url "https://jitpack.io" }
 }
@@ -17,7 +17,7 @@ configurations.all {
     // check for updates every build
     resolutionStrategy.cacheChangingModulesFor 0, 'seconds'
 }
-dependencies {	
+dependencies {
 	// rhea-flow
 	compile 'com.github.rhea-flow:rhea-core:-SNAPSHOT'
 
@@ -53,6 +53,7 @@ test {
 		//events 'passed', 'failed', 'standard_out'
 		//events 'passed', 'failed', 'standard_error'
 		events 'passed', 'failed', 'standard_out', 'standard_error'
+		exceptionFormat = 'full'
 	}
 }
 
