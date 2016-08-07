@@ -22,7 +22,7 @@ dependencies {
 	compile 'com.github.rhea-flow:rhea-core:-SNAPSHOT'
 
 	// rxjava
-	compile 'io.reactivex:rxjava:1.0.+'
+	compile 'io.reactivex:rxjava:1.1.8'
 	compile 'io.reactivex:rxjava-reactive-streams:1.0.0'
 
 	// Testing
