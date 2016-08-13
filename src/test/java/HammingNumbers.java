@@ -13,7 +13,7 @@ import test_data.utilities.Threads;
  */
 public class HammingNumbers {
 
-    @Test
+//    @Test
     public void hamming() {
         Stream.distributionStrategy =
                 new HazelcastDistributionStrategy(Collections.singletonList(RxjavaEvaluationStrategy::new));

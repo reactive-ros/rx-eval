@@ -90,7 +90,7 @@ public class Adhoc {
         Threads.sleep();
     }
 
-    @Test
+//    @Test
     public void twelveTone() {
         Stream.evaluationStrategy = new RxjavaEvaluationStrategy();
 
