@@ -87,14 +87,19 @@ public class RxjavaEvaluationStrategy implements EvaluationStrategy {
     @Override
     public <T> void evaluate(Stream<T> stream, Output output) {
         // Evaluate pipeline
+        System.out.println("Evaluating: " + stream.getGraph().toString());
+        System.out.println("toConnect: " + stream.getGraph().getConnectNode().toString());
         Observable<T> result = evaluate(stream);
         graphs.push(stream.getGraph());
+        System.out.println("Applying output: " + output.toString());
         // Apply output
         try {
             output(output, result);
         } catch (Exception e) {
+            System.out.println(" *** ERROR ***");
             e.printStackTrace();
         }
+        System.out.println("Applied");
         // Realize all awaiting connections
         while (!connections.isEmpty()) {
             Pair<Observable, Subject> pair = connections.pop();
@@ -138,6 +143,7 @@ public class RxjavaEvaluationStrategy implements EvaluationStrategy {
 
     private <T> Observable<T> evaluate(Stream<T> stream) {
         graphs.push(stream.getGraph());
+        System.out.println("...evaluating " + stream.getToConnect().toString());
         Observable<T> ret = evaluate(stream.getToConnect());
         graphs.pop();
         return ret;
@@ -157,12 +163,20 @@ public class RxjavaEvaluationStrategy implements EvaluationStrategy {
             evaluator.setAccessible(true);
             ret = (Observable<T>) evaluator.invoke(this, expr);
         } catch (Exception e) {
+            System.out.println(" ** ERROR **");
+            e.printStackTrace();
             ret = Observable.error(e.getCause());
         }
 
         // Propagate onComplete to feedback loop's exit point
         if ((expr instanceof SingleInputExpr) && (inner(expr) instanceof ExitPointExpr)) {
             Subject subject = evaluated.get(inner(expr));
+            ret = ret.doOnCompleted(subject::onCompleted)
+                    .doOnUnsubscribe(subject::onCompleted)
+                    .doOnTerminate(subject::onCompleted);
+        }
+        if ((expr instanceof SingleInputExpr) && (expr instanceof ExitPointExpr) {
+            Subject subject = evaluated.get(expr);
             ret = ret.doOnCompleted(subject::onCompleted)
                     .doOnUnsubscribe(subject::onCompleted)
                     .doOnTerminate(subject::onCompleted);
@@ -408,6 +422,7 @@ public class RxjavaEvaluationStrategy implements EvaluationStrategy {
     private <T> Observable<T> evaluate(ConcatMultiExpr<T> expr) {
         List<Observable<T>> sources = new ArrayList<>();
         predecessors(expr).iterator().forEachRemaining(st -> sources.add(evaluate(st)));
+        System.out.println("ConcatMulti: " + sources.size());
         switch (sources.size()) {
             case 0: case 1: throw new RuntimeException("Cannot concat less than 2 streams");
             case 2: return Observable.concat(sources.get(0), sources.get(1));
@@ -427,57 +442,58 @@ public class RxjavaEvaluationStrategy implements EvaluationStrategy {
     }
     private <T1,T2,T3,T4,T5,T6,T7,T8,T9,R> Observable<R> evaluate(ZipExpr<T1,T2,T3,T4,T5,T6,T7,T8,T9,R> c) {
         List<Transformer> p = predecessors(c);
-        int size = p.size();
-        for (int i = 0; i < (9 - size); i++)
+        System.out.println("predecessors: " + p.size());
+        for (int i = 0; i < 9; i++)
             p.add(null);
         Transformer p1 = p.get(0); Transformer p2 = p.get(1); Transformer p3 = p.get(2); Transformer p4 = p.get(3); Transformer p5 = p.get(4);
         Transformer p6 = p.get(5); Transformer p7 = p.get(6); Transformer p8 = p.get(7); Transformer p9 = p.get(8);
-        if (c.combiner9 != null) {
-            if (Objects.equals(c.type, "zip"))
-                return Observable.zip(evaluate(p.get(0)), evaluate(p2), evaluate(p3), evaluate(p4), evaluate(p5), evaluate(p6), evaluate(p7), evaluate(p8), evaluate(p9), c.combiner9::call);
-            else
-                return Observable.combineLatest(evaluate(p1), evaluate(p2), evaluate(p3), evaluate(p4), evaluate(p5), evaluate(p6), evaluate(p7), evaluate(p8), evaluate(p9), c.combiner9::call);
+        System.out.println(c.toString() + "[" + c.type + "]" + ": " + c.getArgumentNo());
+        switch (c.getArgumentNo()) {
+            case 0: case 1: throw new RuntimeException("Cannot zip less than 2 streams");
+            case 2:
+                if (Objects.equals(c.type, "zip")) {
+                    System.out.println(p1 + ' , ' + p2);
+                    return Observable.zip(evaluate(p1), evaluate(p2), c.combiner2::call);
+                }
+                else
+                    return Observable.combineLatest(evaluate(p1), evaluate(p2), c.combiner2::call);
+            case 3:
+                if (Objects.equals(c.type, "zip"))
+                    return Observable.zip(evaluate(p1), evaluate(p2), evaluate(p3), c.combiner3::call);
+                else
+                    return Observable.combineLatest(evaluate(p1), evaluate(p2), evaluate(p3), c.combiner3::call);
+            case 4:
+                if (Objects.equals(c.type, "zip"))
+                    return Observable.zip(evaluate(p1), evaluate(p2), evaluate(p3), evaluate(p4), c.combiner4::call);
+                else
+                    return Observable.combineLatest(evaluate(p1), evaluate(p2), evaluate(p3), evaluate(p4), c.combiner4::call);
+            case 5:
+                if (Objects.equals(c.type, "zip"))
+                    return Observable.zip(evaluate(p1), evaluate(p2), evaluate(p3), evaluate(p4), evaluate(p5), c.combiner5::call);
+                else
+                    return Observable.combineLatest(evaluate(p1), evaluate(p2), evaluate(p3), evaluate(p4), evaluate(p5), c.combiner5::call);
+            case 6:
+                if (Objects.equals(c.type, "zip"))
+                    return Observable.zip(evaluate(p1), evaluate(p2), evaluate(p3), evaluate(p4), evaluate(p5), evaluate(p6), c.combiner6::call);
+                else
+                    return Observable.combineLatest(evaluate(p1), evaluate(p2), evaluate(p3), evaluate(p4), evaluate(p5), evaluate(p6), c.combiner6::call);
+            case 7:
+                if (Objects.equals(c.type, "zip"))
+                    return Observable.zip(evaluate(p1), evaluate(p2), evaluate(p3), evaluate(p4), evaluate(p5), evaluate(p6), evaluate(p7), c.combiner7::call);
+                else
+                    return Observable.combineLatest(evaluate(p1), evaluate(p2), evaluate(p3), evaluate(p4), evaluate(p5), evaluate(p6), evaluate(p7), c.combiner7::call);
+            case 8:
+                if (Objects.equals(c.type, "zip"))
+                    return Observable.zip(evaluate(p1), evaluate(p2), evaluate(p3), evaluate(p4), evaluate(p5), evaluate(p6), evaluate(p7), evaluate(p8), c.combiner8::call);
+                else
+                    return Observable.combineLatest(evaluate(p1), evaluate(p2), evaluate(p3), evaluate(p4), evaluate(p5), evaluate(p6), evaluate(p7), evaluate(p8), c.combiner8::call);
+            case 9:
+                if (Objects.equals(c.type, "zip"))
+                    return Observable.zip(evaluate(p1), evaluate(p2), evaluate(p3), evaluate(p4), evaluate(p5), evaluate(p6), evaluate(p7), evaluate(p8), evaluate(p9), c.combiner9::call);
+                else
+                    return Observable.combineLatest(evaluate(p1), evaluate(p2), evaluate(p3), evaluate(p4), evaluate(p5), evaluate(p6), evaluate(p7), evaluate(p8), evaluate(p9), c.combiner9::call);
+            default: throw new RuntimeException("Cannot zip more than 9 streams");
         }
-        if (c.combiner8 != null) {
-            if (Objects.equals(c.type, "zip"))
-                return Observable.zip(evaluate(p1), evaluate(p2), evaluate(p3), evaluate(p4), evaluate(p5), evaluate(p6), evaluate(p7), evaluate(p8), c.combiner8::call);
-            else
-                return Observable.combineLatest(evaluate(p1), evaluate(p2), evaluate(p3), evaluate(p4), evaluate(p5), evaluate(p6), evaluate(p7), evaluate(p8), c.combiner8::call);
-        }
-        if (c.combiner7 != null) {
-            if (Objects.equals(c.type, "zip"))
-                return Observable.zip(evaluate(p1), evaluate(p2), evaluate(p3), evaluate(p4), evaluate(p5), evaluate(p6), evaluate(p7), c.combiner7::call);
-            else
-                return Observable.combineLatest(evaluate(p1), evaluate(p2), evaluate(p3), evaluate(p4), evaluate(p5), evaluate(p6), evaluate(p7), c.combiner7::call);
-        }
-        if (c.combiner6 != null) {
-            if (Objects.equals(c.type, "zip"))
-                return Observable.zip(evaluate(p1), evaluate(p2), evaluate(p3), evaluate(p4), evaluate(p5), evaluate(p6), c.combiner6::call);
-            else
-                return Observable.combineLatest(evaluate(p1), evaluate(p2), evaluate(p3), evaluate(p4), evaluate(p5), evaluate(p6), c.combiner6::call);
-        }
-        if (c.combiner5 != null) {
-            if (Objects.equals(c.type, "zip"))
-                return Observable.zip(evaluate(p1), evaluate(p2), evaluate(p3), evaluate(p4), evaluate(p5), c.combiner5::call);
-            else
-                return Observable.combineLatest(evaluate(p1), evaluate(p2), evaluate(p3), evaluate(p4), evaluate(p5), c.combiner5::call);
-        }
-        if (c.combiner4 != null) {
-            if (Objects.equals(c.type, "zip"))
-                return Observable.zip(evaluate(p1), evaluate(p2), evaluate(p3), evaluate(p4), c.combiner4::call);
-            else
-                return Observable.combineLatest(evaluate(p1), evaluate(p2), evaluate(p3), evaluate(p4), c.combiner4::call);
-        }
-        if (c.combiner3 != null) {
-            if (Objects.equals(c.type, "zip"))
-                return Observable.zip(evaluate(p1), evaluate(p2), evaluate(p3), c.combiner3::call);
-            else
-                return Observable.combineLatest(evaluate(p1), evaluate(p2), evaluate(p3), c.combiner3::call);
-        }
-        if (Objects.equals(c.type, "zip"))
-            return Observable.zip(evaluate(p1), evaluate(p2), c.combiner2::call);
-        else
-            return Observable.combineLatest(evaluate(p1), evaluate(p2), c.combiner2::call);
     }
 
     private class Pair<T1, T2> {

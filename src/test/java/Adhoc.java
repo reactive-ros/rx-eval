@@ -209,4 +209,21 @@ public class Adhoc {
         }
         return C;
     }
+
+    @Test
+    public void now() {
+        Stream.evaluationStrategy = new RxjavaEvaluationStrategy();
+        Stream<?> stream =
+            Stream.just(1).loop(s ->
+                Stream.zip(
+                    s.map(i -> i + 1),
+                    s.map(i -> i + 1),
+                    (x, y) -> x + y
+                )
+            );
+
+        stream.printAll();
+
+        Threads.sleep();
+    }
 }
